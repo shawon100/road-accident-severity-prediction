@@ -1,0 +1,310 @@
+<!doctype html>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Accident Severity Prediction </title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- <link rel="stylesheet" href="../static/style.css"> -->
+		<style>
+			h1 {
+			    text-align: center;
+			    color: green;
+			}
+
+			input[type=text], select {
+			    width: 100%;
+			    padding: 12px 20px;
+			    margin: 8px 0;
+			    display: inline-block;
+			    border: 1px solid #ccc;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			    font-size: 20px;
+			}
+
+			/*input[type=submit] {
+			    width: 100%;
+			    background-color: #4CAF50;
+			    color: white;
+			    padding: 14px 20px;
+			    margin: 8px 0;
+			    border: none;
+			    border-radius: 4px;
+			    cursor: pointer;
+			}
+
+			input[type=submit]:hover {
+			    background-color: #45a049;
+			}*/
+
+			.box {
+			    width: 500px;
+			    margin-left: 0px;
+			    margin-top: 100px;
+			    border-radius: 35px;
+			    background-color: #f2f2f2;
+			    padding: 20px;
+			}
+
+			.button {
+			  display: inline-block;
+			  padding: 11px 25px;
+			  font-size: 24px;
+			  cursor: pointer;
+			  text-align: center;
+			  text-decoration: none;
+			  outline: none;
+			  color: #fff;
+			  background-color: #4CAF50;
+			  border: none;
+			  border-radius: 15px;
+			  box-shadow: 0 9px #999;
+			  position:relative;
+			  top:50%; 
+    		  left:0%;
+			  /*margin: 0 auto;*/
+			}
+
+			.button:hover {background-color: #3e8e41}
+
+			.button:active {
+			  background-color: #3e8e41;
+			  box-shadow: 0 5px #666;
+			  transform: translateY(4px);
+			}
+		</style>
+	</head>
+
+	<!-- <video playsinline autoplay muted loop id="bgvid">
+	    <source src="{{ url_for('static', filename='video/video.mp4') }}" type="video/mp4">
+	</video> -->
+
+	<body background="../tmp/background.jpg">
+		<center><div class="box">
+			<h1>Road Accident Severity Prediction</h1>
+		    <form method="post" role="form">
+			 <!--<label>Latitude</label>-->
+			 <input type="hidden" name="Latitude" placeholder="Latitude" value="55.00" required="required" />
+			 <!--<label>Longitude</label>-->
+			 <input type="hidden" name="Longitude" placeholder="Longitude" value="-3.31" required="required" /><br>
+		      
+			  <p>
+				<p>
+					<!--<label>Number_of_Casualties</label>-->
+				  <select style="display: none;" name="Number_of_Casualties">
+				   <option hidden value="3">3</option>
+				   <!--<option value="2">2</option>
+				   <option value="1">1</option>
+				   <option value="4">4</option>
+				   <option value="5">5</option>-->
+				   </select>
+		        </p>
+				<p>
+					<label>Number_of_Vehicles</label>
+				 <select name="Number_of_Vehicles">
+				   <option value="1">1</option>
+				   <option value="2">2</option>
+				   <option value="3">3</option>
+				   <option value="4">4</option>
+				   <option value="5">5</option>
+				 </select>
+		      </p>
+
+			  <p>
+				<label>Road Type</label>
+				<select name="Road_Type">
+					<option value="0">Single carriageway</option>
+				<option value="1">Dual carriageway</option>
+				<option value="2">Roundabout</option>
+				<option value="3">One way street</option>
+				<option value="4">Slip road</option>
+				</select>
+	           </p>
+
+			   <p>
+				<label>Speed Limit</label>
+				<!-- <input type="range" min="0" max="70" value="50" class="slider" name="Speed_Limit"> -->
+			 <select name="Speed_limit">
+				 <option value="10.0">10.0</option>
+			   <option value="15.0">15.0</option>
+			   <option value="20.0">20.0</option>
+			   <option value="30.0">30.0</option>
+			   <option value="40.0">40.0</option>
+			   <option value="50.0">50.0</option>
+			   <option value="60.0">60.0</option>
+			   <option value="70.0">70.0</option>
+			 </select>
+			</p>
+			 <p>
+            	<label>Light Conditions</label>
+				<select name="Light_Conditions">
+					<option value="0">Darkeness: No street lighting </option>
+				  <option value="1">Darkness: Street lighting unknown</option>
+				  <option value="2">Darkness: Street lights present and lit </option>
+				  <option value="3">Darkness: Street lights present but unlit</option>
+				  <option value="4">Daylight: Street light present</option>
+				</select>
+           	  </p>
+
+			 <p>
+					<label>Weather Conditions</label>
+				 <select name="Weather_Conditions">
+					 <option value="0">Fine no high winds</option>
+				   <option value="1">Raining no high winds</option>
+				   <option value="2">Raining + high winds</option>
+				   <option value="3">Fine + high winds</option>
+				   <option value="4">Snowing no high winds</option>
+				   <option value="5">Fog or mist</option>
+				   <option value="6">Snowing + high winds</option>
+				 </select>
+		      </p>
+
+			  <p>
+				<label>Road surface conditions</label>
+			 <select name="Road_Surface_Conditions">
+				 <option value="1">Dry</option>
+			   <option value="2">Wet or damp</option>
+			   <option value="3">Frost or ice</option>
+			   <option value="4">Snow</option>
+			   <option value="5">Flood over 3cm. deep</option>
+			 </select>
+	          </p>
+
+	         
+				<label>Carriageway Hazards</label>
+				<select name="Carriageway_Hazards">
+					<option value="0">No object in carriageway</option>
+				  <option value="1">One object in carriageway</option>
+				  <option value="2">Animal in carriageway</option>
+				  <option value="3">Pedestrain in carriageway</option>
+				  <option value="4">Vehicle Load object in carriageway</option>
+				  <option value="5">Other object in carriageway</option>
+				</select>
+			   </p>
+			     </p>
+		      
+
+			<p>
+					<label>Junction Control</label>
+				 <select name="Junction_Control">
+					 <option value="0">Authorized Person</option>
+				   <option value="1">Auto traffic signal</option>
+				   <option value="2">Not at junction or within 20 metres</option>
+				   <option value="3">Stop sign</option>
+				   <option value="4">Give way or uncontrolled</option>
+				 </select>
+		     </p>
+
+			 <p>
+				<label>Pedestrian_Crossing-Human_Control</label>
+			 <select name="Pedestrian_Crossing-Human_Control">
+				 <option value="1">None within 20 metres</option>
+			   <option value="2">None within 50 metres</option>
+			   <!--<option value="3">Crossroads</option>
+			   <option value="4">Roundabout</option>
+			   <option value="5">Private drive or entrance</option>
+			   <option value="6">Other junction</option>
+			   <option value="7">Slip road</option>
+			   <option value="8">More than 4 arms (not roundabout)</option>
+			   <option value="9">Mini-roundabout</option>-->
+			 </select>
+	        </p>
+
+			<p>
+				<label>Pedestrian_Crossing-Physical_Facilities</label>
+			 <select name="Pedestrian_Crossing-Physical_Facilities">
+				 <option value="1">Zebra Crossing</option>
+			   <option value="2">No Physical Crossing within 50 meters</option>
+			   <option value="3">Footbridge/Subway</option>
+			 </select>
+	        </p>
+
+			<p>
+	           	  <label>Special conditions at site</label>
+			      <select name="Special_Conditions_at_Site">
+			      	<option value="0">Auto signal part defective</option>
+				    <option value="1">Road sign or marking defective or obscured</option>
+				    <option value="2">Auto traffic signal - out</option>
+				    <option value="3">Road surface defective</option>
+				    <option value="4">Mud</option>
+				    <option value="5">Oil or diesel</option>
+				    <option value="6">Roadworks</option>
+				    <option value="7">None</option>
+				  </select>
+			</p>
+
+
+			<p>
+	         
+				<label>Urban_or_Rural_Area</label>
+				<select name="Urban_or_Rural_Area">
+					<option value="1">Urban</option>
+				  <option value="2">Rural</option>
+				</select>
+			</p>
+
+
+			<!-- <p>
+				<label>Time</label>
+				<input type="radio"
+                       name="Time"
+                       value="1"
+                       checked  /> Day
+                <input type="radio"
+                       name="Time"
+                       value="2" /> Night
+			</p> -->
+
+		    <button class="button" type="submit" id="submit">Predict Accident Severity</button>
+		    </form>
+			<h1>Predicted Result</h1><br><br>
+			<h1 id ="result"></h1><br>
+
+			<b>Developed By Ontario Tech </b>
+		</div></center>
+	</body>
+	<script type="text/javascript">
+	function ConvertFormToJSON(form){
+    	var array = jQuery(form).serializeArray();
+    	var json = {};
+    
+    	jQuery.each(array, function() {
+    	    json[this.name] = this.value || '';
+   		});
+    
+    	return json;
+	}
+		$(function() {
+    $('button').click(function(e) {
+    	e.preventDefault()
+    	var json = ConvertFormToJSON($('form'));
+    	console.log(json)
+        $.ajax({
+            url: '/predict',
+            data: JSON.stringify(json),
+          	dataType: "json",
+            type: 'POST',
+            contentType: "application/json",
+            success: function(response) {
+                console.log(response);
+                //alert("Accident Severity is predicted as:"+response.result)
+				if (response.result === 'Fatal Accident') {
+					$('#result').css('color', 'red');
+				}
+				else
+				{
+					$('#result').css('color', 'green');
+				}
+
+				$('#result').html(response.result);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+ 
+    </script>
+</html>
